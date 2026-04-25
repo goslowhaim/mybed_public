@@ -1,0 +1,1192 @@
+{
+  "updatedAt": "2026-04-25 14:55 KST",
+  "overview": {
+    "overallStatus": "WARN",
+    "trend": "mixed",
+    "summary": {
+      "biggestRisk": {
+        "ko": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전",
+        "en": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전"
+      },
+      "biggestImprovement": {
+        "ko": "7개 프로그램과 일일 상태 파일이 한 구조로 연결되었습니다.",
+        "en": "7개 프로그램과 일일 상태 파일이 한 구조로 연결되었습니다."
+      }
+    },
+    "kpis": [
+      {
+        "label": {
+          "ko": "프로그램 수",
+          "en": "Programs"
+        },
+        "value": "7",
+        "status": "good"
+      },
+      {
+        "label": {
+          "ko": "활성 루프",
+          "en": "Active Loops"
+        },
+        "value": "3",
+        "status": "good"
+      },
+      {
+        "label": {
+          "ko": "차단 항목",
+          "en": "Blocked Items"
+        },
+        "value": "4",
+        "status": "watch"
+      },
+      {
+        "label": {
+          "ko": "열린 승인",
+          "en": "Open Approvals"
+        },
+        "value": "0",
+        "status": "good"
+      }
+    ],
+    "teamHeatmap": [
+      {
+        "team": {
+          "ko": "대시보드 운영",
+          "en": "Dashboard Operations"
+        },
+        "status": "watch"
+      },
+      {
+        "team": {
+          "ko": "미래 미디어 확장",
+          "en": "Future Media Expansion"
+        },
+        "status": "planned"
+      },
+      {
+        "team": {
+          "ko": "리서치 블로그",
+          "en": "Research Blog"
+        },
+        "status": "stable"
+      },
+      {
+        "team": {
+          "ko": "세컨드 브레인",
+          "en": "Second Brain"
+        },
+        "status": "stable"
+      },
+      {
+        "team": {
+          "ko": "보안 운영",
+          "en": "Security Operations"
+        },
+        "status": "stable"
+      },
+      {
+        "team": {
+          "ko": "시스템 개선",
+          "en": "System Improvement"
+        },
+        "status": "stable"
+      },
+      {
+        "team": {
+          "ko": "투자 자동화",
+          "en": "Trading Automation"
+        },
+        "status": "stable"
+      }
+    ],
+    "urgentTasks": [
+      {
+        "taskId": "task-dashboard-operations",
+        "title": {
+          "ko": "대시보드 운영",
+          "en": "Dashboard Operations"
+        },
+        "owner": {
+          "ko": "대시보드 운영",
+          "en": "Dashboard Operations"
+        },
+        "priority": "high",
+        "status": "blocked",
+        "nextAction": "draft source를 legacy public source와 비교 검토"
+      },
+      {
+        "taskId": "task-future-media-expansion",
+        "title": {
+          "ko": "미래 미디어 확장",
+          "en": "Future Media Expansion"
+        },
+        "owner": {
+          "ko": "미래 미디어 확장",
+          "en": "Future Media Expansion"
+        },
+        "priority": "high",
+        "status": "blocked",
+        "nextAction": "first media adapter 후보 정리"
+      },
+      {
+        "taskId": "task-research-blog",
+        "title": {
+          "ko": "리서치 블로그",
+          "en": "Research Blog"
+        },
+        "owner": {
+          "ko": "리서치 블로그",
+          "en": "Research Blog"
+        },
+        "priority": "high",
+        "status": "blocked",
+        "nextAction": "credentials provisioning 후 첫 live WordPress draft 생성 테스트"
+      },
+      {
+        "taskId": "task-second-brain-operations",
+        "title": {
+          "ko": "세컨드 브레인",
+          "en": "Second Brain"
+        },
+        "owner": {
+          "ko": "세컨드 브레인",
+          "en": "Second Brain"
+        },
+        "priority": "medium",
+        "status": "active",
+        "nextAction": "첫 실제 Topic 24 입력을 capture path로 저장"
+      }
+    ],
+    "blockers": [
+      {
+        "ko": "live dashboard migration timing decision",
+        "en": "live dashboard migration timing decision"
+      },
+      {
+        "ko": "future-media first tranche selection",
+        "en": "future-media first tranche selection"
+      },
+      {
+        "ko": "WordPress application password provisioning",
+        "en": "WordPress application password provisioning"
+      },
+      {
+        "ko": "WordPress credentials provisioning",
+        "en": "WordPress credentials provisioning"
+      }
+    ],
+    "hotIncidents": [
+      {
+        "ko": "대시보드 운영",
+        "en": "Dashboard Operations"
+      }
+    ],
+    "sources": [
+      {
+        "ko": "program state snapshot 기준",
+        "en": "Based on program state snapshots"
+      },
+      {
+        "ko": "coordination task board 기준",
+        "en": "Based on the coordination task board"
+      },
+      {
+        "ko": "scheduled job runtime summary 기준",
+        "en": "Based on scheduled job runtime summaries"
+      }
+    ]
+  },
+  "teams": [
+    {
+      "id": "dashboard-operations",
+      "name": {
+        "ko": "대시보드 운영",
+        "en": "Dashboard Operations"
+      },
+      "status": "watch",
+      "summary": {
+        "ko": "대시보드 운영 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Dashboard Operations."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "active",
+            "en": "active"
+          },
+          "status": "watch"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "program state source drafted",
+            "en": "program state source drafted"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "136",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전",
+          "en": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전"
+        },
+        {
+          "ko": "old public-dashboard-source.json를 program-state-first source로 교체해야 한다",
+          "en": "old public-dashboard-source.json를 program-state-first source로 교체해야 한다"
+        }
+      ]
+    },
+    {
+      "id": "future-media-expansion",
+      "name": {
+        "ko": "미래 미디어 확장",
+        "en": "Future Media Expansion"
+      },
+      "status": "planned",
+      "summary": {
+        "ko": "미래 미디어 확장 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Future Media Expansion."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "blueprint_ready",
+            "en": "blueprint_ready"
+          },
+          "status": "planned"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "adapter specs defined",
+            "en": "adapter specs defined"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "136",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "실제 생성 도구와 외부 채널 연동은 아직 미도입",
+          "en": "실제 생성 도구와 외부 채널 연동은 아직 미도입"
+        },
+        {
+          "ko": "첫 adapter 선택과 계정 연결 시점은 아직 미정이다",
+          "en": "첫 adapter 선택과 계정 연결 시점은 아직 미정이다"
+        }
+      ]
+    },
+    {
+      "id": "research-blog",
+      "name": {
+        "ko": "리서치 블로그",
+        "en": "Research Blog"
+      },
+      "status": "stable",
+      "summary": {
+        "ko": "리서치 블로그 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Research Blog."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "active",
+            "en": "active"
+          },
+          "status": "stable"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "wordpress draft dry run ready",
+            "en": "wordpress draft dry run ready"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "15",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "실제 WordPress draft 생성은 credentials provisioning 전까지 보류다",
+          "en": "실제 WordPress draft 생성은 credentials provisioning 전까지 보류다"
+        },
+        {
+          "ko": "publish는 계속 Human gate이며 자동 발행은 범위 밖이다",
+          "en": "publish는 계속 Human gate이며 자동 발행은 범위 밖이다"
+        }
+      ]
+    },
+    {
+      "id": "second-brain-operations",
+      "name": {
+        "ko": "세컨드 브레인",
+        "en": "Second Brain"
+      },
+      "status": "stable",
+      "summary": {
+        "ko": "세컨드 브레인 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Second Brain."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "active",
+            "en": "active"
+          },
+          "status": "stable"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "baseline validated",
+            "en": "baseline validated"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "24",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "실제 Obsidian 저장소 write 경로 연결은 아직 미검증",
+          "en": "실제 Obsidian 저장소 write 경로 연결은 아직 미검증"
+        }
+      ]
+    },
+    {
+      "id": "security-operations",
+      "name": {
+        "ko": "보안 운영",
+        "en": "Security Operations"
+      },
+      "status": "stable",
+      "summary": {
+        "ko": "보안 운영 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Security Operations."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "active",
+            "en": "active"
+          },
+          "status": "stable"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "canonical reporting ready",
+            "en": "canonical reporting ready"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "17",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "remaining warns: trusted proxies, multi-user heuristic",
+          "en": "remaining warns: trusted proxies, multi-user heuristic"
+        }
+      ]
+    },
+    {
+      "id": "system-improvement",
+      "name": {
+        "ko": "시스템 개선",
+        "en": "System Improvement"
+      },
+      "status": "stable",
+      "summary": {
+        "ko": "시스템 개선 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for System Improvement."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "active",
+            "en": "active"
+          },
+          "status": "stable"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "scope locked and drafts generated",
+            "en": "scope locked and drafts generated"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "136",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "runtime split과 credential boundary는 아직 실제 적용 전이다",
+          "en": "runtime split과 credential boundary는 아직 실제 적용 전이다"
+        },
+        {
+          "ko": "WordPress live draft test는 credentials provisioning 전까지 진행할 수 없다",
+          "en": "WordPress live draft test는 credentials provisioning 전까지 진행할 수 없다"
+        }
+      ]
+    },
+    {
+      "id": "trading-automation",
+      "name": {
+        "ko": "투자 자동화",
+        "en": "Trading Automation"
+      },
+      "status": "stable",
+      "summary": {
+        "ko": "투자 자동화 프로그램의 현재 루프와 보고 토픽을 요약합니다.",
+        "en": "Summarizes the current loop and reporting topic for Trading Automation."
+      },
+      "kpis": [
+        {
+          "label": {
+            "ko": "상태",
+            "en": "Status"
+          },
+          "value": {
+            "ko": "design_ready",
+            "en": "design_ready"
+          },
+          "status": "stable"
+        },
+        {
+          "label": {
+            "ko": "사이클",
+            "en": "Cycle"
+          },
+          "value": {
+            "ko": "mock only scope locked",
+            "en": "mock only scope locked"
+          },
+          "status": "good"
+        },
+        {
+          "label": {
+            "ko": "보고 토픽",
+            "en": "Reporting Topic"
+          },
+          "value": "2",
+          "status": "good"
+        }
+      ],
+      "bottlenecks": [
+        {
+          "ko": "live broker/account onboarding은 의도적으로 deferred 상태다",
+          "en": "live broker/account onboarding은 의도적으로 deferred 상태다"
+        },
+        {
+          "ko": "mock pipeline artifact와 simulation runner는 아직 구현 전이다",
+          "en": "mock pipeline artifact와 simulation runner는 아직 구현 전이다"
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-dashboard-operations",
+      "title": {
+        "ko": "draft source를 legacy public source와 비교 검토",
+        "en": "draft source를 legacy public source와 비교 검토"
+      },
+      "type": "operations",
+      "status": "blocked",
+      "ownerTeam": {
+        "ko": "대시보드 운영",
+        "en": "Dashboard Operations"
+      },
+      "relatedTeams": [
+        {
+          "ko": "대시보드 운영",
+          "en": "Dashboard Operations"
+        }
+      ],
+      "priority": "high",
+      "progressLabel": "program state source drafted",
+      "blocker": {
+        "ko": "live dashboard migration timing decision",
+        "en": "live dashboard migration timing decision"
+      },
+      "nextAction": {
+        "ko": "draft source를 legacy public source와 비교 검토",
+        "en": "draft source를 legacy public source와 비교 검토"
+      }
+    },
+    {
+      "id": "task-future-media-expansion",
+      "title": {
+        "ko": "first media adapter 후보 정리",
+        "en": "first media adapter 후보 정리"
+      },
+      "type": "structure",
+      "status": "blocked",
+      "ownerTeam": {
+        "ko": "미래 미디어 확장",
+        "en": "Future Media Expansion"
+      },
+      "relatedTeams": [
+        {
+          "ko": "미래 미디어 확장",
+          "en": "Future Media Expansion"
+        }
+      ],
+      "priority": "high",
+      "progressLabel": "adapter specs defined",
+      "blocker": {
+        "ko": "future-media first tranche selection",
+        "en": "future-media first tranche selection"
+      },
+      "nextAction": {
+        "ko": "first media adapter 후보 정리",
+        "en": "first media adapter 후보 정리"
+      }
+    },
+    {
+      "id": "task-research-blog",
+      "title": {
+        "ko": "credentials provisioning 후 첫 live WordPress draft 생성 테스트",
+        "en": "credentials provisioning 후 첫 live WordPress draft 생성 테스트"
+      },
+      "type": "operations",
+      "status": "blocked",
+      "ownerTeam": {
+        "ko": "리서치 블로그",
+        "en": "Research Blog"
+      },
+      "relatedTeams": [
+        {
+          "ko": "리서치 블로그",
+          "en": "Research Blog"
+        }
+      ],
+      "priority": "high",
+      "progressLabel": "wordpress draft dry run ready",
+      "blocker": {
+        "ko": "WordPress application password provisioning",
+        "en": "WordPress application password provisioning"
+      },
+      "nextAction": {
+        "ko": "credentials provisioning 후 첫 live WordPress draft 생성 테스트",
+        "en": "credentials provisioning 후 첫 live WordPress draft 생성 테스트"
+      }
+    },
+    {
+      "id": "task-second-brain-operations",
+      "title": {
+        "ko": "첫 실제 Topic 24 입력을 capture path로 저장",
+        "en": "첫 실제 Topic 24 입력을 capture path로 저장"
+      },
+      "type": "operations",
+      "status": "active",
+      "ownerTeam": {
+        "ko": "세컨드 브레인",
+        "en": "Second Brain"
+      },
+      "relatedTeams": [
+        {
+          "ko": "세컨드 브레인",
+          "en": "Second Brain"
+        }
+      ],
+      "priority": "medium",
+      "progressLabel": "baseline validated",
+      "blocker": {
+        "ko": "현재 공개 차단 요인은 없습니다.",
+        "en": "현재 공개 차단 요인은 없습니다."
+      },
+      "nextAction": {
+        "ko": "첫 실제 Topic 24 입력을 capture path로 저장",
+        "en": "첫 실제 Topic 24 입력을 capture path로 저장"
+      }
+    },
+    {
+      "id": "task-security-operations",
+      "title": {
+        "ko": "남은 보안 경고를 다음 remediation task로 분해",
+        "en": "남은 보안 경고를 다음 remediation task로 분해"
+      },
+      "type": "operations",
+      "status": "active",
+      "ownerTeam": {
+        "ko": "보안 운영",
+        "en": "Security Operations"
+      },
+      "relatedTeams": [
+        {
+          "ko": "보안 운영",
+          "en": "Security Operations"
+        }
+      ],
+      "priority": "medium",
+      "progressLabel": "canonical reporting ready",
+      "blocker": {
+        "ko": "현재 공개 차단 요인은 없습니다.",
+        "en": "현재 공개 차단 요인은 없습니다."
+      },
+      "nextAction": {
+        "ko": "남은 보안 경고를 다음 remediation task로 분해",
+        "en": "남은 보안 경고를 다음 remediation task로 분해"
+      }
+    },
+    {
+      "id": "task-system-improvement",
+      "title": {
+        "ko": "credentials provisioning 이후 WordPress live draft test 착수",
+        "en": "credentials provisioning 이후 WordPress live draft test 착수"
+      },
+      "type": "operations",
+      "status": "blocked",
+      "ownerTeam": {
+        "ko": "시스템 개선",
+        "en": "System Improvement"
+      },
+      "relatedTeams": [
+        {
+          "ko": "시스템 개선",
+          "en": "System Improvement"
+        }
+      ],
+      "priority": "high",
+      "progressLabel": "scope locked and drafts generated",
+      "blocker": {
+        "ko": "WordPress credentials provisioning",
+        "en": "WordPress credentials provisioning"
+      },
+      "nextAction": {
+        "ko": "credentials provisioning 이후 WordPress live draft test 착수",
+        "en": "credentials provisioning 이후 WordPress live draft test 착수"
+      }
+    },
+    {
+      "id": "task-trading-automation",
+      "title": {
+        "ko": "mock account state와 simulated order lifecycle 문서화",
+        "en": "mock account state와 simulated order lifecycle 문서화"
+      },
+      "type": "operations",
+      "status": "active",
+      "ownerTeam": {
+        "ko": "투자 자동화",
+        "en": "Trading Automation"
+      },
+      "relatedTeams": [
+        {
+          "ko": "투자 자동화",
+          "en": "Trading Automation"
+        }
+      ],
+      "priority": "medium",
+      "progressLabel": "mock only scope locked",
+      "blocker": {
+        "ko": "현재 공개 차단 요인은 없습니다.",
+        "en": "현재 공개 차단 요인은 없습니다."
+      },
+      "nextAction": {
+        "ko": "mock account state와 simulated order lifecycle 문서화",
+        "en": "mock account state와 simulated order lifecycle 문서화"
+      }
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-04-25",
+      "events": [
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "대시보드 운영",
+            "en": "Dashboard Operations"
+          },
+          "summary": {
+            "ko": "program state source drafted 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the program state source drafted cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "미래 미디어 확장",
+            "en": "Future Media Expansion"
+          },
+          "summary": {
+            "ko": "adapter specs defined 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the adapter specs defined cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "리서치 블로그",
+            "en": "Research Blog"
+          },
+          "summary": {
+            "ko": "wordpress draft dry run ready 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the wordpress draft dry run ready cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "세컨드 브레인",
+            "en": "Second Brain"
+          },
+          "summary": {
+            "ko": "baseline validated 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the baseline validated cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "보안 운영",
+            "en": "Security Operations"
+          },
+          "summary": {
+            "ko": "canonical reporting ready 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the canonical reporting ready cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "시스템 개선",
+            "en": "System Improvement"
+          },
+          "summary": {
+            "ko": "scope locked and drafts generated 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the scope locked and drafts generated cycle."
+          }
+        },
+        {
+          "kind": {
+            "ko": "운영",
+            "en": "Operations"
+          },
+          "title": {
+            "ko": "투자 자동화",
+            "en": "Trading Automation"
+          },
+          "summary": {
+            "ko": "mock only scope locked 상태로 정본과 일일 산출물이 갱신되었습니다.",
+            "en": "The canonical state and daily output were refreshed in the mock only scope locked cycle."
+          }
+        }
+      ]
+    }
+  ],
+  "incidents": [
+    {
+      "id": "incident-dashboard-operations",
+      "title": {
+        "ko": "대시보드 운영 주의 상태",
+        "en": "Dashboard Operations watch state"
+      },
+      "team": {
+        "ko": "대시보드 운영",
+        "en": "Dashboard Operations"
+      },
+      "severity": "warn",
+      "status": "open",
+      "impact": {
+        "ko": "자동 루프의 일부가 아직 안정화 전입니다.",
+        "en": "Parts of the automatic loop are not yet fully stabilized."
+      },
+      "summary": {
+        "ko": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전",
+        "en": "공개 뷰와 내부 운영 뷰의 분기 규격이 아직 구현 전"
+      },
+      "updatedAt": "2026-04-25"
+    }
+  ],
+  "guides": {
+    "overview": [
+      {
+        "ko": "개요 탭은 프로그램 수, 차단 수, 열린 승인 수를 먼저 읽는 화면입니다.",
+        "en": "Overview is the first place to read program count, blocked items, and open approvals."
+      },
+      {
+        "ko": "개별 채팅보다 정본 상태 파일과 다음 자동 액션에 집중해 읽습니다.",
+        "en": "Read this through canonical state files and next automatic actions rather than individual chats."
+      }
+    ],
+    "teams": [
+      {
+        "ko": "팀 탭은 기존 팀 개념 대신 프로그램 단위 운영 상태를 보여줍니다.",
+        "en": "The teams tab now represents program-level operating status instead of legacy teams."
+      }
+    ],
+    "tasks": [
+      {
+        "ko": "작업 탭은 프로그램별 다음 자동 액션을 실행 단위로 보여줍니다.",
+        "en": "The tasks tab shows the next automatic action for each program as an execution unit."
+      }
+    ],
+    "history": [
+      {
+        "ko": "히스토리 탭은 일일 상태 갱신과 구조 변화의 누적 기록입니다.",
+        "en": "History is the accumulated log of daily state refreshes and structure changes."
+      }
+    ],
+    "incidents": [
+      {
+        "ko": "이슈 탭은 watch 상태 프로그램만 좁혀서 보여줍니다.",
+        "en": "Incidents narrows the view to programs currently in a watch state."
+      }
+    ],
+    "scheduled": [
+      {
+        "ko": "정기작업 탭은 cron과 launchd 결과를 함께 읽는 화면입니다.",
+        "en": "Scheduled jobs reads cron and launchd results together."
+      }
+    ]
+  },
+  "scheduledJobs": {
+    "summary": {
+      "total": 6,
+      "healthy": 3,
+      "watch": 0,
+      "failed": 3,
+      "disabled": 0,
+      "todayScheduled": 5
+    },
+    "highlights": [
+      {
+        "ko": "현재 자동 수집된 정기작업은 총 6개입니다.",
+        "en": "6 scheduled jobs are currently auto-collected."
+      },
+      {
+        "ko": "주의 0개, 실패 3개 작업을 우선 점검 대상으로 표시합니다.",
+        "en": "0 watch and 3 failed jobs are flagged for attention first."
+      },
+      {
+        "ko": "현재 수집 범위에는 비활성 작업이 없습니다.",
+        "en": "No disabled jobs are currently present in the collected scope."
+      },
+      {
+        "ko": "launchd와 cron 모두 주기 대비 지연 여부를 함께 계산합니다.",
+        "en": "Both launchd and cron now include lateness checks against expected cadence."
+      }
+    ],
+    "jobs": [
+      {
+        "id": "launchd:ai.openclaw.harness-daily-digest",
+        "title": {
+          "ko": "하네스 일일 다이제스트 생성",
+          "en": "Generate harness daily digest"
+        },
+        "status": "healthy",
+        "scope": {
+          "ko": "운영 / 하네스",
+          "en": "Operations / Harness"
+        },
+        "owner": {
+          "ko": "로컬 launchd",
+          "en": "Local launchd"
+        },
+        "cadence": {
+          "ko": "매일 00:07",
+          "en": "Daily at 00:07"
+        },
+        "nextRun": {
+          "ko": "launchd 기준 다음 스케줄",
+          "en": "Per next launchd schedule"
+        },
+        "lastRun": {
+          "ko": "2026-04-25 00:07 KST",
+          "en": "2026-04-25 00:07 KST"
+        },
+        "output": {
+          "ko": "/Users/simini/Library/Logs/OpenClaw/harness-daily-digest.log",
+          "en": "/Users/simini/Library/Logs/OpenClaw/harness-daily-digest.log"
+        },
+        "notes": {
+          "ko": "최근 로그 갱신이 주기 범위 안에 있습니다. (888분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/harness-daily-digest.err.log",
+          "en": "최근 로그 갱신이 주기 범위 안에 있습니다. (888분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/harness-daily-digest.err.log"
+        }
+      },
+      {
+        "id": "launchd:ai.openclaw.harness-weekly-aggregation",
+        "title": {
+          "ko": "하네스 주간 집계 생성",
+          "en": "Generate harness weekly aggregation"
+        },
+        "status": "healthy",
+        "scope": {
+          "ko": "운영 / 하네스",
+          "en": "Operations / Harness"
+        },
+        "owner": {
+          "ko": "로컬 launchd",
+          "en": "Local launchd"
+        },
+        "cadence": {
+          "ko": "매주 일요일 00:20",
+          "en": "Weekly on Sunday at 00:20"
+        },
+        "nextRun": {
+          "ko": "launchd 기준 다음 스케줄",
+          "en": "Per next launchd schedule"
+        },
+        "lastRun": {
+          "ko": "2026-04-20 00:20 KST",
+          "en": "2026-04-20 00:20 KST"
+        },
+        "output": {
+          "ko": "/Users/simini/Library/Logs/OpenClaw/harness-weekly-aggregation.log",
+          "en": "/Users/simini/Library/Logs/OpenClaw/harness-weekly-aggregation.log"
+        },
+        "notes": {
+          "ko": "최근 로그 갱신이 주기 범위 안에 있습니다. (8075분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/harness-weekly-aggregation.err.log",
+          "en": "최근 로그 갱신이 주기 범위 안에 있습니다. (8075분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/harness-weekly-aggregation.err.log"
+        }
+      },
+      {
+        "id": "launchd:ai.openclaw.records-daily-report",
+        "title": {
+          "ko": "기록관리 일일 보고 생성",
+          "en": "Generate records daily report"
+        },
+        "status": "healthy",
+        "scope": {
+          "ko": "기록관리",
+          "en": "Records"
+        },
+        "owner": {
+          "ko": "로컬 launchd",
+          "en": "Local launchd"
+        },
+        "cadence": {
+          "ko": "매일 00:02",
+          "en": "Daily at 00:02"
+        },
+        "nextRun": {
+          "ko": "launchd 기준 다음 스케줄",
+          "en": "Per next launchd schedule"
+        },
+        "lastRun": {
+          "ko": "2026-04-25 00:02 KST",
+          "en": "2026-04-25 00:02 KST"
+        },
+        "output": {
+          "ko": "/Users/simini/Library/Logs/OpenClaw/records-daily-report.log",
+          "en": "/Users/simini/Library/Logs/OpenClaw/records-daily-report.log"
+        },
+        "notes": {
+          "ko": "최근 로그 갱신이 주기 범위 안에 있습니다. (893분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/records-daily-report.err.log",
+          "en": "최근 로그 갱신이 주기 범위 안에 있습니다. (893분 경과) / error log: /Users/simini/Library/Logs/OpenClaw/records-daily-report.err.log"
+        }
+      },
+      {
+        "id": "cron:55baf53d-1657-4df4-9fff-b4fc110e9128",
+        "title": {
+          "ko": "healthcheck:security-audit",
+          "en": "healthcheck:security-audit"
+        },
+        "status": "failed",
+        "scope": {
+          "ko": "보안",
+          "en": "Security"
+        },
+        "owner": {
+          "ko": "OpenClaw cron",
+          "en": "OpenClaw cron"
+        },
+        "cadence": {
+          "ko": "매일 23:05",
+          "en": "Daily at 23:05"
+        },
+        "nextRun": {
+          "ko": "2026-04-01 23:05 KST",
+          "en": "2026-04-01 23:05 KST"
+        },
+        "lastRun": {
+          "ko": "2026-03-31 23:05 KST",
+          "en": "2026-03-31 23:05 KST"
+        },
+        "output": {
+          "ko": "-1003789136896",
+          "en": "-1003789136896"
+        },
+        "notes": {
+          "ko": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35510분 경과) / Read nightly security monitor alert/report after OS cron run and notify only on issues",
+          "en": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35510분 경과) / Read nightly security monitor alert/report after OS cron run and notify only on issues"
+        }
+      },
+      {
+        "id": "cron:0fe75e14-9504-48f8-8ff2-5b3ea06e4d3b",
+        "title": {
+          "ko": "기록관리팀 자정 팀활동 보고",
+          "en": "기록관리팀 자정 팀활동 보고"
+        },
+        "status": "failed",
+        "scope": {
+          "ko": "기록관리",
+          "en": "Records"
+        },
+        "owner": {
+          "ko": "OpenClaw cron",
+          "en": "OpenClaw cron"
+        },
+        "cadence": {
+          "ko": "매일 00:00",
+          "en": "Daily at 00:00"
+        },
+        "nextRun": {
+          "ko": "2026-04-02 00:00 KST",
+          "en": "2026-04-02 00:00 KST"
+        },
+        "lastRun": {
+          "ko": "2026-04-01 00:00 KST",
+          "en": "2026-04-01 00:00 KST"
+        },
+        "output": {
+          "ko": "-1003789136896:topic:136",
+          "en": "-1003789136896:topic:136"
+        },
+        "notes": {
+          "ko": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35455분 경과) / -",
+          "en": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35455분 경과) / -"
+        }
+      },
+      {
+        "id": "cron:711db8ad-3d43-43e8-a346-26e31a66f4f5",
+        "title": {
+          "ko": "포일동 아침 브리핑",
+          "en": "포일동 아침 브리핑"
+        },
+        "status": "failed",
+        "scope": {
+          "ko": "브리핑",
+          "en": "Briefing"
+        },
+        "owner": {
+          "ko": "OpenClaw cron",
+          "en": "OpenClaw cron"
+        },
+        "cadence": {
+          "ko": "매일 07:00",
+          "en": "Daily at 07:00"
+        },
+        "nextRun": {
+          "ko": "2026-04-02 07:00 KST",
+          "en": "2026-04-02 07:00 KST"
+        },
+        "lastRun": {
+          "ko": "2026-04-01 07:00 KST",
+          "en": "2026-04-01 07:00 KST"
+        },
+        "output": {
+          "ko": "-1003789136896",
+          "en": "-1003789136896"
+        },
+        "notes": {
+          "ko": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35035분 경과) / 매일 오전 7시 포일동 날씨 + 전날 22:00~당일 07:00 국내/국제 뉴스 요약",
+          "en": "최근 실행이 예상 주기 대비 크게 늦었습니다. (35035분 경과) / 매일 오전 7시 포일동 날씨 + 전날 22:00~당일 07:00 국내/국제 뉴스 요약"
+        }
+      }
+    ]
+  }
+}

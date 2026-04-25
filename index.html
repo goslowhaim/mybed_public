@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Operations Dashboard</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div>
+        <div class="hero-topline">
+          <p class="eyebrow" id="eyebrowText">Operations</p>
+          <div class="lang-switch" aria-label="Language switch">
+            <button class="lang-btn active" data-lang="ko">KO</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+        </div>
+        <h1 id="pageTitle">System Dashboard</h1>
+        <p class="subtitle" id="pageSubtitle">overview / teams / tasks / history / incidents / scheduled jobs 기반 외부 운영 대시보드</p>
+      </div>
+      <div class="status-card">
+        <span class="label" id="overallLabel">Overall</span>
+        <strong id="overallStatus">-</strong>
+        <span id="trendText" class="muted">-</span>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Dashboard tabs">
+      <button class="tab active" data-tab="overview" data-i18n="tabOverview">Overview</button>
+      <button class="tab" data-tab="teams" data-i18n="tabTeams">Teams</button>
+      <button class="tab" data-tab="tasks" data-i18n="tabTasks">Tasks</button>
+      <button class="tab" data-tab="history" data-i18n="tabHistory">History</button>
+      <button class="tab" data-tab="incidents" data-i18n="tabIncidents">Incidents</button>
+      <button class="tab" data-tab="scheduled" data-i18n="tabScheduled">Scheduled Jobs</button>
+    </nav>
+
+    <section id="tab-overview" class="tab-panel active">
+      <section class="grid two priority-top">
+        <article class="card emphasis-card">
+          <h2 data-i18n="currentStatus">Current Status</h2>
+          <div class="status-summary">
+            <div class="summary-main">
+              <span class="summary-label" data-i18n="overall">Overall</span>
+              <strong id="currentOverallHero">-</strong>
+              <span id="currentTrendHero" class="summary-sub">-</span>
+            </div>
+            <div class="summary-block">
+              <span class="summary-label" data-i18n="biggestRisk">Biggest risk</span>
+              <strong id="biggestRisk">-</strong>
+            </div>
+            <div class="summary-block">
+              <span class="summary-label" data-i18n="biggestImprovement">Biggest improvement</span>
+              <strong id="biggestImprovement">-</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="card emphasis-card">
+          <h2 data-i18n="urgentTasks">Urgent Tasks</h2>
+          <div id="urgentTasks" class="stack"></div>
+        </article>
+      </section>
+
+      <section class="grid two">
+        <article class="card">
+          <h2 data-i18n="currentBlockers">Current Blockers</h2>
+          <ul id="blockers" class="bullet"></ul>
+        </article>
+        <article class="card">
+          <h2 data-i18n="teamHeatmap">Team Heatmap</h2>
+          <div id="teamHeatmap" class="pill-list"></div>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="kpiStrip">KPI Strip</h2>
+        <div id="kpiStrip" class="kpi-grid"></div>
+      </section>
+
+      <section class="grid two secondary-zone">
+        <article class="card secondary-card">
+          <h2 data-i18n="hotIncidents">Hot Incidents</h2>
+          <ul id="hotIncidents" class="bullet"></ul>
+        </article>
+        <article class="card secondary-card">
+          <h2 data-i18n="sources">Sources</h2>
+          <ul id="sourceLinks" class="bullet"></ul>
+        </article>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadOverview">How to read this tab</h2>
+        <ul class="bullet" id="guideOverview"></ul>
+      </section>
+    </section>
+
+    <section id="tab-teams" class="tab-panel">
+      <section class="card">
+        <h2 data-i18n="tabTeams">Teams</h2>
+        <div id="teamsGrid" class="teams-grid"></div>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadTeams">How to read this tab</h2>
+        <ul class="bullet" id="guideTeams"></ul>
+      </section>
+    </section>
+
+    <section id="tab-tasks" class="tab-panel">
+      <section class="card">
+        <div class="section-head">
+          <h2 data-i18n="tabTasks">Tasks</h2>
+          <div class="filters-wrap">
+            <div id="taskFocusState" class="focus-badge" style="display:none"></div>
+            <button id="clearTaskFocus" class="filter" style="display:none" data-i18n="clearFocus">Clear Focus</button>
+            <div id="taskFilters" class="filters">
+              <button class="filter active" data-filter="all" data-i18n="filterAll">All</button>
+              <button class="filter" data-filter="active" data-i18n="filterActive">Active</button>
+              <button class="filter" data-filter="completed" data-i18n="filterCompleted">Completed</button>
+              <button class="filter" data-filter="operations" data-i18n="filterOperations">Operations</button>
+              <button class="filter" data-filter="structure" data-i18n="filterStructure">Structure</button>
+              <button class="filter" data-filter="blocked" data-i18n="filterBlocked">Blocked</button>
+              <button class="filter" data-filter="high" data-i18n="filterHigh">High Priority</button>
+            </div>
+          </div>
+        </div>
+        <div id="tasksGrid" class="tasks-grid"></div>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadTasks">How to read this tab</h2>
+        <ul class="bullet" id="guideTasks"></ul>
+      </section>
+    </section>
+
+    <section id="tab-history" class="tab-panel">
+      <section class="card">
+        <div class="section-head">
+          <h2 data-i18n="tabHistory">History</h2>
+        </div>
+        <div id="historyGrid" class="history-grid"></div>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadHistory">How to read this tab</h2>
+        <ul class="bullet" id="guideHistory"></ul>
+      </section>
+    </section>
+
+    <section id="tab-incidents" class="tab-panel">
+      <section class="card">
+        <div class="section-head">
+          <h2 data-i18n="tabIncidents">Incidents</h2>
+          <div class="filters-wrap">
+            <div id="incidentFocusState" class="focus-badge" style="display:none"></div>
+            <button id="clearIncidentFocus" class="filter" style="display:none" data-i18n="clearFocus">Clear Focus</button>
+          </div>
+        </div>
+        <div id="incidentsGrid" class="tasks-grid"></div>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadIncidents">How to read this tab</h2>
+        <ul class="bullet" id="guideIncidents"></ul>
+      </section>
+    </section>
+
+    <section id="tab-scheduled" class="tab-panel">
+      <section class="grid two priority-top">
+        <article class="card emphasis-card">
+          <h2 data-i18n="scheduledSummary">Scheduled Summary</h2>
+          <div id="scheduledSummaryCards" class="kpi-grid"></div>
+        </article>
+        <article class="card emphasis-card">
+          <h2 data-i18n="scheduledHighlights">Scheduled Highlights</h2>
+          <ul id="scheduledHighlights" class="bullet"></ul>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2 data-i18n="tabScheduled">Scheduled Jobs</h2>
+          <div class="filters-wrap">
+            <div id="scheduledFocusState" class="focus-badge" style="display:none"></div>
+            <button id="clearScheduledFocus" class="filter" style="display:none" data-i18n="clearFocus">Clear Focus</button>
+            <div id="scheduledFilters" class="filters">
+              <button class="filter active" data-scheduled-filter="all" data-i18n="filterAll">All</button>
+              <button class="filter" data-scheduled-filter="healthy" data-i18n="filterHealthy">Healthy</button>
+              <button class="filter" data-scheduled-filter="watch" data-i18n="filterWatch">Watch</button>
+              <button class="filter" data-scheduled-filter="failed" data-i18n="filterFailed">Failed</button>
+              <button class="filter" data-scheduled-filter="disabled" data-i18n="filterDisabled">Disabled</button>
+            </div>
+          </div>
+        </div>
+        <div id="scheduledGrid" class="tasks-grid"></div>
+      </section>
+      <section class="card tab-guide-card">
+        <h2 data-i18n="howToReadScheduled">How to read this tab</h2>
+        <ul class="bullet" id="guideScheduled"></ul>
+      </section>
+    </section>
+
+    <footer class="footer">
+      <span id="updatedAt">updated: -</span>
+    </footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

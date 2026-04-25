@@ -1,0 +1,66 @@
+{
+  "jobs": [
+    {
+      "id": "55baf53d-1657-4df4-9fff-b4fc110e9128",
+      "name": "healthcheck:security-audit",
+      "description": "Read nightly security monitor alert/report after OS cron run and notify only on issues",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 23 * * *",
+        "tz": "Asia/Seoul"
+      },
+      "delivery": {
+        "to": "-1003789136896"
+      },
+      "state": {
+        "nextRunAtMs": 1775052300000,
+        "lastRunAtMs": 1774965900011,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "0fe75e14-9504-48f8-8ff2-5b3ea06e4d3b",
+      "name": "기록관리팀 자정 팀활동 보고",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 0 * * *",
+        "tz": "Asia/Seoul"
+      },
+      "delivery": {
+        "to": "-1003789136896:topic:136"
+      },
+      "state": {
+        "nextRunAtMs": 1775055600000,
+        "lastRunAtMs": 1774969200010,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "711db8ad-3d43-43e8-a346-26e31a66f4f5",
+      "name": "포일동 아침 브리핑",
+      "description": "매일 오전 7시 포일동 날씨 + 전날 22:00~당일 07:00 국내/국제 뉴스 요약",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 7 * * *",
+        "tz": "Asia/Seoul"
+      },
+      "delivery": {
+        "to": "-1003789136896"
+      },
+      "state": {
+        "nextRunAtMs": 1775080800000,
+        "lastRunAtMs": 1774994400016,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "consecutiveErrors": 0
+      }
+    }
+  ]
+}
