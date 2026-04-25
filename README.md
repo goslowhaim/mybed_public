@@ -1,9 +1,19 @@
-# Dashboard Site
+# Pipeline Operations Dashboard
 
-GitHub Pages용 최소 정적 대시보드 출력 디렉토리.
+Public pipeline-first dashboard for the OpenClaw operating system.
 
-## Update flow
-1. Update `dashboards/system-health-dashboard.md`
-2. Run `python3 scripts/build_site_dashboard.py`
-3. Run `python3 scripts/deploy_public_dashboard.py`
-4. GitHub Pages serves `goslowhaim/mybed_public`
+Current scope:
+
+- pipeline names
+- status / health
+- current cycle
+- public summary
+- high-level KPIs
+
+Excluded from the public view:
+
+- internal evidence paths
+- feedback bodies
+- waiting_on details
+- improvement backlog internals
+- private credentials or runtime paths

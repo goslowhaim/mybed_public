@@ -1,108 +1,127 @@
-async function loadData() {
-  const res = await fetch('./dashboard-data.json', { cache: 'no-store' });
-  return res.json();
-}
-
-const I18N = {
-  ko: {
-    eyebrow: '운영', pageTitle: '시스템 대시보드', pageSubtitle: '개요 / 팀 / 작업 / 히스토리 / 이슈 / 정기작업 기반 외부 운영 대시보드', overallLabel: '전체 상태',
-    tabOverview: '개요', tabTeams: '팀', tabTasks: '작업', tabHistory: '히스토리', tabIncidents: '이슈', tabScheduled: '정기작업',
-    currentStatus: '현재 상태', overall: '전체', biggestRisk: '가장 큰 리스크', biggestImprovement: '가장 큰 개선',
-    teamHeatmap: '팀 히트맵', kpiStrip: '핵심 지표', urgentTasks: '긴급 작업', currentBlockers: '현재 병목', hotIncidents: '주요 이슈', sources: '출처',
-    clearFocus: '포커스 해제', filterAll: '전체', filterOperations: '운영', filterStructure: '구조', filterBlocked: '차단', filterHigh: '높은 우선순위', filterActive: '진행중', filterCompleted: '완료',
-    filterHealthy: '정상', filterWatch: '주의', filterFailed: '실패', filterDisabled: '비활성',
-    owner: '담당', priority: '우선순위', next: '다음', focusedTask: '포커스 작업', focusedTeam: '포커스 팀', focusedIncident: '포커스 이슈', focusedScheduled: '포커스 정기작업',
-    type: '유형', teams: '연관 팀', progress: '진행', blocker: '병목', updated: '업데이트', impact: '영향', summary: '요약',
-    scheduledSummary: '정기작업 요약', scheduledHighlights: '정기작업 하이라이트', cadence: '주기', nextRun: '다음 실행', lastRun: '최근 실행', output: '산출물', notes: '메모', scope: '범주',
-    howToReadOverview: '이 탭은 이렇게 읽습니다', howToReadTeams: '이 탭은 이렇게 읽습니다', howToReadTasks: '이 탭은 이렇게 읽습니다', howToReadHistory: '이 탭은 이렇게 읽습니다', howToReadIncidents: '이 탭은 이렇게 읽습니다', howToReadScheduled: '이 탭은 이렇게 읽습니다',
-    stable: '안정', watch: '주의', warn: '경고', 'action needed': '조치 필요', blocked: '차단', active: '진행중', completed: '완료', planned: '계획됨', open: '오픈', good: '양호', mixed: '혼합', high: '높음', medium: '보통', low: '낮음', rising: '상승', healthy: '정상', failed: '실패', disabled: '비활성'
-  },
-  en: {
-    eyebrow: 'Operations', pageTitle: 'System Dashboard', pageSubtitle: 'External operations dashboard for overview / teams / tasks / history / incidents / scheduled jobs', overallLabel: 'Overall',
-    tabOverview: 'Overview', tabTeams: 'Teams', tabTasks: 'Tasks', tabHistory: 'History', tabIncidents: 'Incidents', tabScheduled: 'Scheduled Jobs',
-    currentStatus: 'Current Status', overall: 'Overall', biggestRisk: 'Biggest risk', biggestImprovement: 'Biggest improvement',
-    teamHeatmap: 'Team Heatmap', kpiStrip: 'KPI Strip', urgentTasks: 'Urgent Tasks', currentBlockers: 'Current Blockers', hotIncidents: 'Hot Incidents', sources: 'Sources',
-    clearFocus: 'Clear Focus', filterAll: 'All', filterOperations: 'Operations', filterStructure: 'Structure', filterBlocked: 'Blocked', filterHigh: 'High Priority', filterActive: 'Active', filterCompleted: 'Completed',
-    filterHealthy: 'Healthy', filterWatch: 'Watch', filterFailed: 'Failed', filterDisabled: 'Disabled',
-    owner: 'owner', priority: 'priority', next: 'next', focusedTask: 'focused task', focusedTeam: 'focused team', focusedIncident: 'focused incident', focusedScheduled: 'focused scheduled job',
-    type: 'type', teams: 'teams', progress: 'progress', blocker: 'blocker', updated: 'updated', impact: 'impact', summary: 'summary',
-    scheduledSummary: 'Scheduled Summary', scheduledHighlights: 'Scheduled Highlights', cadence: 'cadence', nextRun: 'next run', lastRun: 'last run', output: 'output', notes: 'notes', scope: 'scope',
-    howToReadOverview: 'How to read this tab', howToReadTeams: 'How to read this tab', howToReadTasks: 'How to read this tab', howToReadHistory: 'How to read this tab', howToReadIncidents: 'How to read this tab', howToReadScheduled: 'How to read this tab',
-    stable: 'stable', watch: 'watch', warn: 'warn', 'action needed': 'action needed', blocked: 'blocked', active: 'active', completed: 'completed', planned: 'planned', open: 'open', good: 'good', mixed: 'mixed', high: 'high', medium: 'medium', low: 'low', rising: 'rising', healthy: 'healthy', failed: 'failed', disabled: 'disabled'
-  }
+const state = {
+  payload: null,
+  filter: "all",
+  selectedPipelineId: null,
 };
 
-let DASHBOARD_DATA = { overview: {}, teams: [], tasks: [], history: [], incidents: [], scheduledJobs: { summary: {}, highlights: [], jobs: [] }, guides: {} };
-let ACTIVE_LANG = localStorage.getItem('dashboard.lang') || 'ko';
-let ACTIVE_TASK_FILTER = 'all';
-let ACTIVE_SCHEDULED_FILTER = 'all';
-let ACTIVE_TEAM_FOCUS = null;
-let ACTIVE_TASK_FOCUS = null;
-let ACTIVE_INCIDENT_FOCUS = null;
-let ACTIVE_SCHEDULED_FOCUS = null;
-
-function t(key) { return I18N[ACTIVE_LANG]?.[key] || key; }
-function tv(value) { if (value && typeof value === 'object' && !Array.isArray(value)) return value[ACTIVE_LANG] || value.en || value.ko || Object.values(value)[0] || '-'; return value ?? '-'; }
-function displayValue(value) { const raw = String(tv(value) || ''); const key = raw.toLowerCase(); if (I18N[ACTIVE_LANG]?.[key]) return I18N[ACTIVE_LANG][key]; return raw; }
-function trStatus(value) { return displayValue(value); }
-function cls(v) { const x = String(tv(v) || '').toLowerCase(); if (x.includes('critical') || x.includes('blocked') || x.includes('failed')) return 'critical'; if (x.includes('warn') || x.includes('watch') || x.includes('action needed') || x.includes('high')) return 'warn'; if (x.includes('good') || x.includes('stable') || x.includes('improving') || x.includes('active') || x.includes('planned') || x.includes('operating') || x.includes('open') || x.includes('healthy') || x.includes('completed')) return 'good'; if (x.includes('disabled')) return 'muted-pill'; return ''; }
-function applyStaticTranslations() { document.getElementById('eyebrowText').textContent = t('eyebrow'); document.getElementById('pageTitle').textContent = t('pageTitle'); document.getElementById('pageSubtitle').textContent = t('pageSubtitle'); document.getElementById('overallLabel').textContent = t('overallLabel'); document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); }); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === ACTIVE_LANG)); document.documentElement.lang = ACTIVE_LANG === 'ko' ? 'ko' : 'en'; }
-function setText(id, value, extraClass='') { const el = document.getElementById(id); if (!el) return; el.textContent = value ?? '-'; el.className = extraClass ? extraClass : ''; }
-function renderList(id, items) { const el = document.getElementById(id); if (!el) return; el.innerHTML = ''; (items || []).forEach(item => { const li = document.createElement('li'); li.textContent = displayValue(item); el.appendChild(li); }); }
-function activateTab(name) { document.querySelectorAll('.tab').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); document.querySelector(`.tab[data-tab="${name}"]`)?.classList.add('active'); document.getElementById(`tab-${name}`)?.classList.add('active'); }
-function setTaskFilter(filter) { ACTIVE_TASK_FILTER = filter; document.querySelectorAll('.filter[data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter === filter)); }
-function setScheduledFilter(filter) { ACTIVE_SCHEDULED_FILTER = filter; document.querySelectorAll('.filter[data-scheduled-filter]').forEach(b => b.classList.toggle('active', b.dataset.scheduledFilter === filter)); }
-function focusTask(taskId) { ACTIVE_TASK_FOCUS = taskId; activateTab('tasks'); renderTasks(DASHBOARD_DATA.tasks || []); }
-function focusTeam(teamId) { ACTIVE_TEAM_FOCUS = teamId; ACTIVE_TASK_FOCUS = null; activateTab('tasks'); renderTasks(DASHBOARD_DATA.tasks || []); }
-function focusIncident(incidentId) { ACTIVE_INCIDENT_FOCUS = incidentId; activateTab('incidents'); renderIncidents(DASHBOARD_DATA.incidents || []); }
-function focusScheduled(jobId) { ACTIVE_SCHEDULED_FOCUS = ACTIVE_SCHEDULED_FOCUS === jobId ? null : jobId; activateTab('scheduled'); renderScheduledJobs(DASHBOARD_DATA.scheduledJobs || {}); }
-function clearTaskFocus() { ACTIVE_TEAM_FOCUS = null; ACTIVE_TASK_FOCUS = null; renderTasks(DASHBOARD_DATA.tasks || []); }
-function clearIncidentFocus() { ACTIVE_INCIDENT_FOCUS = null; renderIncidents(DASHBOARD_DATA.incidents || []); }
-function clearScheduledFocus() { ACTIVE_SCHEDULED_FOCUS = null; renderScheduledJobs(DASHBOARD_DATA.scheduledJobs || {}); }
-function renderFocusState(badgeId, clearId, label) { const badge = document.getElementById(badgeId); const clear = document.getElementById(clearId); if (!badge || !clear) return; if (!label) { badge.style.display = 'none'; clear.style.display = 'none'; return; } badge.textContent = label; badge.style.display = 'inline-flex'; clear.style.display = 'inline-flex'; }
-
-function renderUrgentTasks(items) { const el = document.getElementById('urgentTasks'); if (!el) return; el.innerHTML = ''; (items || []).forEach(item => { const div = document.createElement('button'); div.className = 'task-card action-card'; div.type = 'button'; div.addEventListener('click', () => focusTask(item.taskId)); div.innerHTML = `<div class="task-top"><strong>${displayValue(item.title)}</strong><span class="pill ${cls(item.status)}">${trStatus(item.status)}</span></div><div class="meta">${t('owner')}: ${displayValue(item.owner) || '-'} · ${t('priority')}: ${displayValue(item.priority || '-')}</div><div class="meta compact-next">${t('next')}: ${displayValue(item.nextAction) || '-'}</div>`; el.appendChild(div); }); }
-function renderTeams(items) { const el = document.getElementById('teamsGrid'); if (!el) return; el.innerHTML = ''; (items || []).forEach(item => { const div = document.createElement('button'); div.type = 'button'; div.className = 'team-card action-card'; div.addEventListener('click', () => focusTeam(item.id)); const kpis = (item.kpis || []).map(k => `<li><span>${displayValue(k.label)}</span><strong class="${cls(k.status || k.value)}">${displayValue(k.value)}</strong></li>`).join(''); const bottlenecks = (item.bottlenecks || []).map(x => `<li>${displayValue(x)}</li>`).join(''); div.innerHTML = `<div class="task-top"><h3>${displayValue(item.name)}</h3><span class="pill ${cls(item.status)}">${trStatus(item.status)}</span></div><p class="meta">${displayValue(item.summary) || ''}</p><ul class="list compact">${kpis}</ul><ul class="bullet compact">${bottlenecks}</ul>`; el.appendChild(div); }); }
-function filteredTasks(items) { let out = items || []; if (ACTIVE_TASK_FILTER === 'active') out = out.filter(x => String(tv(x.status)).toLowerCase() === 'active'); if (ACTIVE_TASK_FILTER === 'completed') out = out.filter(x => String(tv(x.status)).toLowerCase() === 'completed'); if (ACTIVE_TASK_FILTER === 'operations') out = out.filter(x => String(tv(x.type)).toLowerCase() === 'operations'); if (ACTIVE_TASK_FILTER === 'structure') out = out.filter(x => String(tv(x.type)).toLowerCase() === 'structure'); if (ACTIVE_TASK_FILTER === 'blocked') out = out.filter(x => String(tv(x.status)).toLowerCase().includes('blocked')); if (ACTIVE_TASK_FILTER === 'high') out = out.filter(x => String(tv(x.priority)).toLowerCase() === 'high'); if (ACTIVE_TEAM_FOCUS) out = out.filter(x => String(tv(x.ownerTeam)) === ACTIVE_TEAM_FOCUS || (x.relatedTeams || []).map(tv).includes(ACTIVE_TEAM_FOCUS)); if (ACTIVE_TASK_FOCUS) out = out.filter(x => x.id === ACTIVE_TASK_FOCUS); return out; }
-function scheduledSortScore(status) { const s = String(tv(status) || '').toLowerCase(); if (s === 'failed') return 0; if (s === 'watch') return 1; if (s === 'disabled') return 2; if (s === 'healthy') return 3; return 4; }
-function filteredScheduledJobs(items) { let out = items || []; if (ACTIVE_SCHEDULED_FILTER !== 'all') out = out.filter(item => String(tv(item.status)).toLowerCase() === ACTIVE_SCHEDULED_FILTER); if (ACTIVE_SCHEDULED_FOCUS) out = out.filter(item => item.id === ACTIVE_SCHEDULED_FOCUS); return [...out].sort((a, b) => { const scoreDiff = scheduledSortScore(a.status) - scheduledSortScore(b.status); if (scoreDiff !== 0) return scoreDiff; return displayValue(a.title).localeCompare(displayValue(b.title), ACTIVE_LANG); }); }
-function compareDateDesc(a, b) { return String(b.date || '').localeCompare(String(a.date || '')); }
-
-function renderTasks(items) { const el = document.getElementById('tasksGrid'); if (!el) return; el.innerHTML = ''; let label = null; if (ACTIVE_TASK_FOCUS) { const task = (DASHBOARD_DATA.tasks || []).find(x => x.id === ACTIVE_TASK_FOCUS); label = `${t('focusedTask')}: ${task ? displayValue(task.title) : ACTIVE_TASK_FOCUS}`; } else if (ACTIVE_TEAM_FOCUS) { const team = (DASHBOARD_DATA.teams || []).find(x => x.id === ACTIVE_TEAM_FOCUS); label = `${t('focusedTeam')}: ${team ? displayValue(team.name) : ACTIVE_TEAM_FOCUS}`; } renderFocusState('taskFocusState', 'clearTaskFocus', label); filteredTasks(items).forEach(item => { const div = document.createElement('article'); div.className = `task-card ${ACTIVE_TASK_FOCUS === item.id ? 'focused-card' : ''}`; div.innerHTML = `<div class="task-top"><strong>${displayValue(item.title)}</strong><span class="pill ${cls(item.status)}">${trStatus(item.status)}</span></div><div class="meta">${t('type')}: ${displayValue(item.type)} · ${t('owner')}: ${displayValue(item.ownerTeam)} · ${t('priority')}: ${displayValue(item.priority)}</div><div class="meta">${t('teams')}: ${(item.relatedTeams || []).map(displayValue).join(', ')}</div><div class="meta">${t('progress')}: ${displayValue(item.progressLabel)}</div><div class="meta">${t('blocker')}: ${displayValue(item.blocker) || '-'}</div><div class="meta">${t('next')}: ${displayValue(item.nextAction) || '-'}</div>`; el.appendChild(div); }); }
-function renderHistory(items) { const el = document.getElementById('historyGrid'); if (!el) return; el.innerHTML = ''; [...(items || [])].sort(compareDateDesc).forEach(item => { const article = document.createElement('article'); article.className = 'history-card'; const events = (item.events || []).map(ev => `<li><span class="pill ${cls(ev.kind)}">${displayValue(ev.kind)}</span> <strong>${displayValue(ev.title)}</strong><div class="meta">${displayValue(ev.summary)}</div></li>`).join(''); article.innerHTML = `<div class="task-top"><strong>${displayValue(item.date)}</strong><span class="pill">${(item.events || []).length}</span></div><ul class="bullet history-list">${events}</ul>`; el.appendChild(article); }); }
-function renderIncidents(items) { const el = document.getElementById('incidentsGrid'); if (!el) return; el.innerHTML = ''; let label = null; if (ACTIVE_INCIDENT_FOCUS) { const incident = (DASHBOARD_DATA.incidents || []).find(x => x.id === ACTIVE_INCIDENT_FOCUS); label = `${t('focusedIncident')}: ${incident ? displayValue(incident.title) : ACTIVE_INCIDENT_FOCUS}`; } renderFocusState('incidentFocusState', 'clearIncidentFocus', label); (items || []).filter(item => !ACTIVE_INCIDENT_FOCUS || item.id === ACTIVE_INCIDENT_FOCUS).forEach(item => { const div = document.createElement('article'); div.className = `task-card ${ACTIVE_INCIDENT_FOCUS === item.id ? 'focused-card' : ''}`; div.innerHTML = `<div class="task-top"><strong>${displayValue(item.title)}</strong><span class="pill ${cls(item.severity)}">${trStatus(item.severity)}</span></div><div class="meta">team: ${displayValue(item.team) || '-'} · status: ${trStatus(item.status || '-')}</div><div class="meta">${t('impact')}: ${displayValue(item.impact) || '-'}</div><div class="meta">${t('summary')}: ${displayValue(item.summary) || '-'}</div><div class="meta">${t('updated')}: ${displayValue(item.updatedAt) || '-'}</div>`; el.appendChild(div); }); }
-function renderScheduledSummary(summary) { const el = document.getElementById('scheduledSummaryCards'); if (!el) return; el.innerHTML = ''; const cards = [{ label: 'Total Jobs', value: summary.total ?? 0, status: 'good' }, { label: t('healthy'), value: summary.healthy ?? 0, status: 'good' }, { label: `${t('watch')} / ${t('failed')}`, value: `${summary.watch ?? 0} / ${summary.failed ?? 0}`, status: (summary.failed ?? 0) > 0 ? 'warn' : 'good' }, { label: 'Today Scheduled', value: summary.todayScheduled ?? 0, status: 'watch' }]; cards.forEach(item => { const div = document.createElement('div'); div.className = 'kpi'; div.innerHTML = `<span class="k">${item.label}</span><span class="v ${cls(item.status)}">${item.value}</span><span class="kpi-status ${cls(item.status)}">${trStatus(item.status)}</span>`; el.appendChild(div); }); }
-function renderScheduledJobs(payload) { renderScheduledSummary(payload.summary || {}); renderList('scheduledHighlights', payload.highlights || []); let label = null; if (ACTIVE_SCHEDULED_FOCUS) { const job = (payload.jobs || []).find(x => x.id === ACTIVE_SCHEDULED_FOCUS); label = `${t('focusedScheduled')}: ${job ? displayValue(job.title) : ACTIVE_SCHEDULED_FOCUS}`; } renderFocusState('scheduledFocusState', 'clearScheduledFocus', label); const el = document.getElementById('scheduledGrid'); if (!el) return; el.innerHTML = ''; filteredScheduledJobs(payload.jobs || []).forEach(item => { const article = document.createElement('button'); article.type = 'button'; const expandedClass = ACTIVE_SCHEDULED_FOCUS === item.id ? 'expanded-card' : ''; article.className = `task-card action-card ${ACTIVE_SCHEDULED_FOCUS === item.id ? 'focused-card' : ''} ${expandedClass}`; article.addEventListener('click', () => focusScheduled(item.id)); const summaryRows = `<div class="scheduled-meta-grid compact-grid"><div class="meta-row"><span class="meta-key">${t('scope')}</span><span class="meta-val">${displayValue(item.scope)}</span></div><div class="meta-row"><span class="meta-key">${t('cadence')}</span><span class="meta-val">${displayValue(item.cadence)}</span></div><div class="meta-row"><span class="meta-key">${t('lastRun')}</span><span class="meta-val">${displayValue(item.lastRun)}</span></div></div>`; const detailRows = `<div class="scheduled-meta-grid"><div class="meta-row"><span class="meta-key">${t('scope')}</span><span class="meta-val">${displayValue(item.scope)}</span></div><div class="meta-row"><span class="meta-key">${t('owner')}</span><span class="meta-val">${displayValue(item.owner)}</span></div><div class="meta-row"><span class="meta-key">${t('cadence')}</span><span class="meta-val">${displayValue(item.cadence)}</span></div><div class="meta-row"><span class="meta-key">${t('nextRun')}</span><span class="meta-val">${displayValue(item.nextRun)}</span></div><div class="meta-row"><span class="meta-key">${t('lastRun')}</span><span class="meta-val">${displayValue(item.lastRun)}</span></div><div class="meta-row"><span class="meta-key">${t('output')}</span><span class="meta-val path-val">${displayValue(item.output)}</span></div></div><div class="scheduled-notes"><div class="meta-key">${t('notes')}</div><div class="meta notes-box">${displayValue(item.notes) || '-'}</div></div>`; article.innerHTML = `<div class="task-top"><strong>${displayValue(item.title)}</strong><span class="pill ${cls(item.status)}">${trStatus(item.status)}</span></div>${ACTIVE_SCHEDULED_FOCUS === item.id ? detailRows : summaryRows}<div class="expand-hint meta">${ACTIVE_SCHEDULED_FOCUS === item.id ? (ACTIVE_LANG === 'ko' ? '클릭하면 요약 보기로 돌아갑니다' : 'click to collapse') : (ACTIVE_LANG === 'ko' ? '클릭하면 상세 정보가 열립니다' : 'click to expand details')}</div>`; el.appendChild(article); }); }
-function renderGuides() { const guides = DASHBOARD_DATA.guides || {}; renderList('guideOverview', guides.overview || []); renderList('guideTeams', guides.teams || []); renderList('guideTasks', guides.tasks || []); renderList('guideHistory', guides.history || []); renderList('guideIncidents', guides.incidents || []); renderList('guideScheduled', guides.scheduled || []); }
-
-function setupTabs() { document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab))); }
-function setupTaskFilters() { document.querySelectorAll('.filter[data-filter]').forEach(btn => btn.addEventListener('click', () => { ACTIVE_TASK_FOCUS = null; ACTIVE_TEAM_FOCUS = null; setTaskFilter(btn.dataset.filter); renderTasks(DASHBOARD_DATA.tasks || []); })); }
-function setupScheduledFilters() { document.querySelectorAll('.filter[data-scheduled-filter]').forEach(btn => btn.addEventListener('click', () => { ACTIVE_SCHEDULED_FOCUS = null; setScheduledFilter(btn.dataset.scheduledFilter); renderScheduledJobs(DASHBOARD_DATA.scheduledJobs || {}); })); }
-function setupClearFocus() { document.getElementById('clearTaskFocus')?.addEventListener('click', () => clearTaskFocus()); document.getElementById('clearIncidentFocus')?.addEventListener('click', () => clearIncidentFocus()); document.getElementById('clearScheduledFocus')?.addEventListener('click', () => clearScheduledFocus()); }
-function setupLanguageSwitch() { document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => { ACTIVE_LANG = btn.dataset.lang; localStorage.setItem('dashboard.lang', ACTIVE_LANG); applyStaticTranslations(); renderData(); })); }
-
-function renderData() {
-  const data = DASHBOARD_DATA; const overview = data.overview || {};
-  setText('overallStatus', trStatus(overview.overallStatus || '-'), cls(overview.overallStatus || ''));
-  setText('trendText', trStatus(overview.trend || '-'));
-  setText('currentOverallHero', trStatus(overview.overallStatus || '-'), cls(overview.overallStatus || ''));
-  setText('currentTrendHero', trStatus(overview.trend || '-'));
-  setText('biggestRisk', displayValue(overview.summary?.biggestRisk));
-  setText('biggestImprovement', displayValue(overview.summary?.biggestImprovement));
-  setText('updatedAt', `${t('updated')}: ${displayValue(data.updatedAt)}`);
-  const kpi = document.getElementById('kpiStrip'); if (kpi) { kpi.innerHTML = ''; (overview.kpis || []).forEach(item => { const div = document.createElement('div'); div.className = 'kpi'; div.innerHTML = `<span class="k">${displayValue(item.label)}</span><span class="v ${cls(item.status || item.value)}">${displayValue(item.value)}</span><span class="kpi-status ${cls(item.status || item.value)}">${trStatus(item.status || item.value)}</span>`; kpi.appendChild(div); }); }
-  const team = document.getElementById('teamHeatmap'); if (team) { team.innerHTML = ''; (overview.teamHeatmap || []).forEach(item => { const span = document.createElement('span'); span.className = `pill ${cls(item.status)}`; span.textContent = `${displayValue(item.team)}: ${trStatus(item.status)}`; team.appendChild(span); }); }
-  renderUrgentTasks(overview.urgentTasks || []);
-  renderList('blockers', overview.blockers || []);
-  renderList('hotIncidents', overview.hotIncidents || []);
-  renderList('sourceLinks', overview.sources || []);
-  renderTeams(data.teams || []);
-  renderTasks(data.tasks || []);
-  renderHistory(data.history || []);
-  renderIncidents(data.incidents || []);
-  renderScheduledJobs(data.scheduledJobs || {});
-  renderGuides();
+function $(id) {
+  return document.getElementById(id);
 }
 
-function render() { setupTabs(); setupTaskFilters(); setupScheduledFilters(); setupClearFocus(); setupLanguageSwitch(); applyStaticTranslations(); loadData().then(data => { DASHBOARD_DATA = data; renderData(); }).catch(err => { console.error('dashboard render failed', err); }); }
-render();
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function toneClass(value) {
+  const lowered = String(value || "").toLowerCase();
+  if (["green", "good", "active"].some((item) => lowered.includes(item))) return "good";
+  if (["yellow", "warn", "legacy", "planned", "ready"].some((item) => lowered.includes(item))) return "warn";
+  if (["red", "failed", "bad"].some((item) => lowered.includes(item))) return "bad";
+  return "neutral";
+}
+
+async function loadPayload() {
+  const response = await fetch("./dashboard-data.json", { cache: "no-store" });
+  if (!response.ok) throw new Error(`dashboard-data.json ${response.status}`);
+  state.payload = await response.json();
+}
+
+function renderOverview() {
+  const payload = state.payload || {};
+  $("generatedAt").textContent = payload.generatedAt || "-";
+  $("pipelineCount").textContent = `${(payload.pipelines || []).length} pipelines`;
+  $("boardMode").textContent = payload.mode || "public";
+  $("kpiGrid").innerHTML = (payload.overview?.kpis || []).map((item) => `
+    <article class="kpi-card">
+      <span class="label">${escapeHtml(item.label)}</span>
+      <strong class="value">${escapeHtml(item.value)}</strong>
+      <span class="pill ${toneClass(item.status)}">${escapeHtml(item.status)}</span>
+    </article>
+  `).join("");
+  $("topSignals").innerHTML = (payload.overview?.topSignals || []).map((item) => `
+    <li>${escapeHtml(item)}</li>
+  `).join("") || `<li>표시할 signal이 없습니다.</li>`;
+}
+
+function categoryList() {
+  const categories = new Set((state.payload?.pipelines || []).map((item) => item.category).filter(Boolean));
+  return ["all", ...Array.from(categories).sort()];
+}
+
+function renderFilters() {
+  $("categoryFilters").innerHTML = categoryList().map((category) => `
+    <button class="filter ${state.filter === category ? "is-active" : ""}" type="button" data-filter="${escapeHtml(category)}">
+      ${escapeHtml(category)}
+    </button>
+  `).join("");
+  document.querySelectorAll(".filter").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.filter = button.dataset.filter;
+      renderFilters();
+      renderPipelineGrid();
+    });
+  });
+}
+
+function pipelineMatchesFilter(item) {
+  return state.filter === "all" || item.category === state.filter;
+}
+
+function selectPipeline(pipelineId) {
+  state.selectedPipelineId = pipelineId;
+  renderPipelineGrid();
+  renderSelectedPipeline();
+}
+
+function renderPipelineGrid() {
+  const pipelines = (state.payload?.pipelines || []).filter(pipelineMatchesFilter);
+  if (!state.selectedPipelineId && pipelines[0]) state.selectedPipelineId = pipelines[0].pipeline_id;
+  $("pipelineGrid").innerHTML = pipelines.map((item) => `
+    <button class="pipeline-card ${state.selectedPipelineId === item.pipeline_id ? "is-selected" : ""}" type="button" data-pipeline-id="${escapeHtml(item.pipeline_id)}">
+      <div class="row-between">
+        <strong>${escapeHtml(item.display_name)}</strong>
+        <span class="pill ${toneClass(item.health || item.status)}">${escapeHtml(item.health)}</span>
+      </div>
+      <div class="meta">${escapeHtml(item.category)} · ${escapeHtml(item.status)}</div>
+      <div class="cycle">${escapeHtml(item.current_cycle || "-")}</div>
+      <p class="summary">${escapeHtml(item.summary || "-")}</p>
+    </button>
+  `).join("");
+  document.querySelectorAll(".pipeline-card").forEach((button) => {
+    button.addEventListener("click", () => selectPipeline(button.dataset.pipelineId));
+  });
+}
+
+function renderSelectedPipeline() {
+  const selected = (state.payload?.pipelines || []).find((item) => item.pipeline_id === state.selectedPipelineId);
+  $("selectedPipeline").innerHTML = selected ? `
+    <article class="stack-card">
+      <div class="row-between">
+        <strong>${escapeHtml(selected.display_name)}</strong>
+        <span class="pill ${toneClass(selected.status)}">${escapeHtml(selected.status)}</span>
+      </div>
+      <div class="meta">${escapeHtml(selected.pipeline_id)} · ${escapeHtml(selected.category)}</div>
+      <div class="pill-row">
+        <span class="pill ${toneClass(selected.health)}">${escapeHtml(selected.health)}</span>
+        <span class="pill neutral">${escapeHtml(selected.current_cycle || "-")}</span>
+      </div>
+      <p class="summary">${escapeHtml(selected.summary || "-")}</p>
+    </article>
+  ` : `<p class="muted">선택된 파이프라인이 없습니다.</p>`;
+}
+
+async function init() {
+  await loadPayload();
+  renderOverview();
+  renderFilters();
+  renderPipelineGrid();
+  renderSelectedPipeline();
+}
+
+init().catch((error) => {
+  document.body.innerHTML = `<main class="shell"><article class="panel"><h1>Dashboard Load Error</h1><p>${escapeHtml(error.message)}</p></article></main>`;
+});
